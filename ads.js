@@ -1,4 +1,4 @@
-const gameInput = { gameName: '', publisherName: '', surface: "" };
+let gameInput = { gameName: '', publisherName: '', surface: "" };
 //loading scripts
 $.getScript(
 
