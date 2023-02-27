@@ -1,4 +1,4 @@
-const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'Weegoon', surface: "test" };
+const gameInput = { gameName: '', publisherName: '', surface: "" };
 //loading scripts
 $.getScript(
 

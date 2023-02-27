@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity WebGL Player | DrawBridge</title>
-    <!--<link rel="shortcut icon" href="TemplateData/favicon.ico">-->
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <!--<link rel="stylesheet" href="TemplateData/style.css">-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -50,8 +50,8 @@
     <script>
       var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
-      //var loadingBar = document.querySelector("#unity-loading-bar");
-      //var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
 
@@ -123,18 +123,18 @@
         canvas.style.height = "960px";
       }
 
-      //loadingBar.style.display = "block";
+      loadingBar.style.display = "block";
       var myGameInstance = null;
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-            //progressBarFull.style.width = 100 * progress + "%";
+            progressBarFull.style.width = 100 * progress + "%";
             /*progressBar(100 * progress);*/
             progressBar(100 * progress);
         }).then((unityInstance) => {
           myGameInstance = unityInstance;
-          //loadingBar.style.display = "none";
+          loadingBar.style.display = "none";
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
           };
