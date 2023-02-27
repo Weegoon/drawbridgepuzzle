@@ -8,7 +8,10 @@
     <!--<link rel="stylesheet" href="TemplateData/style.css">-->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./gpid.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     <!--<script src="jquery-3.4.1.min.js"></script>-->
+
     <!--Loading Page-->
     <script type="text/javascript" src="./loadingPage.js"></script>
     <link rel="stylesheet" href="./loadingPage.css">
@@ -16,11 +19,11 @@
     <!--Ads Config-->
     <script type="text/javascript" src="./ads.js"></script>
     <script>
-        gameInput = {
-            gameName: 'DrawBridgePuzzle',
-            publisherName: 'Weegoon',
-            surface: "test"
-        }
+        //gameInput = {
+        //    gameName: 'DrawBridgePuzzle',
+        //    publisherName: 'Weegoon',
+        //    surface: "test"
+        //}
         function successCb() { }
         function failCb(reason) { }
         window.GlanceGamingAdInterface.setupLibrary(gameInput, successCb, failCb);
@@ -147,13 +150,40 @@
     <script>addLoader();</script>
     <script>
         function runOnAdClosed() {
-            $('#playMore').css("display", "none")
-            //destroyNRefreshBannerSlot();
+            if (_triggerReason === 'replay') {
 
-            //s_oGame.onRestart(); // function responsible for replaying the game.
+                // call game function for replay
+                _triggerReason = ''
+                showGame();
 
-            myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+                replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+
+            } else if (_triggerReason === 'reward') {
+
+                // If user close ad before reward
+                if (!isRewardGranted && isRewardedAdClosedByUser) {
+                    // call game function for not earning reward (failure case)
+
+                } else {
+
+                    // call game function for earned reward  (success case)
+                    myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+                }
+                _triggerReason = ''
+                rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+
+            }
+
+
         }
+        //function runOnAdClosed() {
+        //    $('#playMore').css("display", "none")
+        //    //destroyNRefreshBannerSlot();
+
+        //    //s_oGame.onRestart(); // function responsible for replaying the game.
+
+        //    myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+        //}
     </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-let gameInput = { gameName: '', publisherName: '', surface: "" };
+const gameInput = { gameName: '', publisherName: '', surface: "" };
 //loading scripts
 $.getScript(
 
@@ -191,32 +191,32 @@ function rewardedCallbacks(obj) {
 
 }
 // function to be called after ad closes
-function runOnAdClosed() {
-    if (_triggerReason === 'replay') {
+//function runOnAdClosed() {
+//    if (_triggerReason === 'replay') {
 
-        // call game function for replay
-        _triggerReason = ''
-        showGame();
+//        // call game function for replay
+//        _triggerReason = ''
+//        showGame();
 
-        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+//        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
 
-    } else if (_triggerReason === 'reward') {
+//    } else if (_triggerReason === 'reward') {
 
-        // If user close ad before reward
-        if (!isRewardGranted && isRewardedAdClosedByUser) {
-            // call game function for not earning reward (failure case)
+//        // If user close ad before reward
+//        if (!isRewardGranted && isRewardedAdClosedByUser) {
+//            // call game function for not earning reward (failure case)
 
-        } else {
+//        } else {
 
-            // call game function for earned reward  (success case)
-        }
-        _triggerReason = ''
-        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+//            // call game function for earned reward  (success case)
+//        }
+//        _triggerReason = ''
+//        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
-    }
+//    }
 
 
-}
+//}
 
 // function called on replay button (leaderboard) clicked
 function replayEvent() {
@@ -236,7 +236,6 @@ function rewardEvent() {
     } else {
         runOnAdClosed();
     }
-
 }
 
 
