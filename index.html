@@ -6,11 +6,10 @@
     <title>Unity WebGL Player | DrawBridge</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <!--<link rel="stylesheet" href="TemplateData/style.css">-->
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!--<script src="jquery-3.4.1.min.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script type="text/javascript" src="./gpid.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
-    <!--<script src="jquery-3.4.1.min.js"></script>-->
 
     <!--Loading Page-->
     <script type="text/javascript" src="./loadingPage.js"></script>
@@ -18,7 +17,7 @@
 
     <!--Ads Config-->
     <script type="text/javascript" src="./ads.js"></script>
-    <script>
+    <!--<script>
         //gameInput = {
         //    gameName: 'DrawBridgePuzzle',
         //    publisherName: 'Weegoon',
@@ -27,14 +26,14 @@
         function successCb() { }
         function failCb(reason) { }
         window.GlanceGamingAdInterface.setupLibrary(gameInput, successCb, failCb);
-    </script>>
-
+    </script>>-->
     <!--Sticky Banner-->
     <script type="text/javascript" src="./stickyBanner.js"></script>
     <link rel="stylesheet" href="./stickyBanner.css">
-    <script>refreshStickyBannerAd()</script>>
+    <!-- <script>refreshStickyBannerAd()</script>> -->
 </head>
 <body>
+    <script>addLoader();</script>
     <div id="unity-container" class="unity-desktop">
         <canvas id="unity-canvas" width=600 height=960></canvas>
         <div id="unity-loading-bar">
@@ -147,7 +146,6 @@
       };
       document.body.appendChild(script);
     </script>
-    <script>addLoader();</script>
     <script>
         function runOnAdClosed() {
             if (_triggerReason === 'replay') {
@@ -176,14 +174,15 @@
 
 
         }
-        //function runOnAdClosed() {
-        //    $('#playMore').css("display", "none")
-        //    //destroyNRefreshBannerSlot();
+            //function runOnAdClosed() {
+            //    $('#playMore').css("display", "none")
+            //    //destroyNRefreshBannerSlot();
 
-        //    //s_oGame.onRestart(); // function responsible for replaying the game.
+            //    //s_oGame.onRestart(); // function responsible for replaying the game.
 
-        //    myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
-        //}
+            //    myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+            //}
     </script>
+     <script>refreshStickyBannerAd()</script>> 
 </body>
 </html>

@@ -1,4 +1,4 @@
-const gameInput = { gameName: '', publisherName: '', surface: "" };
+const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'weegoon', surface: "test" };
 //loading scripts
 $.getScript(
 
@@ -24,8 +24,8 @@ var isRewardGranted = false
 var isRewardedAdClosedByUser = false
 // Objects for different ad format.
 const LPMercObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle_gameload_Bottom",
-    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    adUnitName: "",
+    pageName: '',               //Game Name
     categoryName: 'Weegoon',           //Publisher Name
     placementName: 'gameload',
     containerID: "div-gpt-ad-2",            //Div Id for banner
@@ -36,8 +36,8 @@ const LPMercObj = {
     gpid: gpID,
 }
 const StickyObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle_Test_Banner_Bottom",
-    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    adUnitName: "",
+    pageName: '',               //Game Name
     categoryName: 'Weegoon',           //Publisher Name
     placementName: 'Test_Banner',
     containerID: "banner-ad",            //Div Id for banner
@@ -50,7 +50,7 @@ const StickyObj = {
 
 const LBBannerObj = {
     adUnitName: "",
-    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    pageName: '',               //Game Name
     categoryName: 'Weegoon',           //Publisher Name
     placementName: 'leaderboard',
     containerID: "div-gpt-ad-1",            //Div Id for banner
@@ -73,7 +73,7 @@ function failCb(reason) { }
 const replayObj = {
     adUnitName: "",
     placementName: "FsReplay",
-    pageName: 'Weegoon_DrawBridgePuzzle',
+    pageName: '',
     categoryName: 'Weegoon',
     containerID: '',
     height: '',
@@ -85,7 +85,7 @@ const replayObj = {
 const rewardObj = {
     adUnitName: "",
     placementName: "FsRewarded",
-    pageName: 'Weegoon_DrawBridgePuzzle',
+    pageName: '',
     categoryName: 'Weegoon',
     containerID: '',
     height: '',
