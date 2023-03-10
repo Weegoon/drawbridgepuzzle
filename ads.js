@@ -218,7 +218,7 @@ function runOnAdClosed() {
       } else {
 
     // call function for earned reward  (success case)
-      myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+      //myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
       }
 
       _triggerReason = ''      
