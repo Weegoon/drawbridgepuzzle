@@ -221,8 +221,9 @@ function runOnAdClosed() {
       //myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
       }
 
-      _triggerReason = ''      
-      rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+      _triggerReason = ''   
+      rewardInstance.destroyAd();
+      //rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
       showGame();
 
     } 
