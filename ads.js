@@ -210,7 +210,7 @@ function runOnAdClosed() {
     } else if (_triggerReason === 'reward') {
         console.log("reward close 1");
 
-        rewardInstance.destroyAd();
+        
       // If user close ad before reward
       if (!isRewardGranted && isRewardedAdClosedByUser) {
         // call function for not earning reward (failure case)
@@ -221,6 +221,7 @@ function runOnAdClosed() {
       myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
       }
       _triggerReason = ''
+      $('#playMore').css("display", "none");
       rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
     } 
@@ -249,12 +250,12 @@ function interstitialEvent(){
 }
 
 function rewardEvent() {
-    // _triggerReason = 'reward'
-    // if (!is_rewarded_noFill) {
-    //     window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
-    // } else {
-    //     runOnAdClosed();
-    // }
+    _triggerReason = 'reward'
+    if (!is_rewarded_noFill) {
+        window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+    } else {
+        runOnAdClosed();
+    }
 
 }
 
