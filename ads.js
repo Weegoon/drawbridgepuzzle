@@ -198,6 +198,7 @@ function rewardedCallbacks(obj) {
 }
 
 function runOnAdClosed() {
+    window.focus();
     if (_triggerReason === 'replay') {
 
     // call function for replay
@@ -205,8 +206,7 @@ function runOnAdClosed() {
     $('#playMore').css("display", "none");
     
     replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
-    } else if (_triggerReason === 'reward') {
-                
+    } else if (_triggerReason === 'reward') {                
       // If user close ad before reward
       if (!isRewardGranted && isRewardedAdClosedByUser) {
         // call function for not earning reward (failure case)
@@ -214,12 +214,11 @@ function runOnAdClosed() {
       } else {
 
     // call function for earned reward  (success case)
-      //myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+      myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
 
       }
 
       _triggerReason = '' 
-      $('#playMore').css("display", "none");  
       rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
     } 
@@ -253,8 +252,6 @@ function rewardEvent() {
     } else {
         runOnAdClosed();
     }
-
-    $("#div-gpt-ad-1").html("");
 }
 
 
