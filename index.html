@@ -131,6 +131,7 @@
           myGameInstance = unityInstance;
 
           refreshStickyBannerAd();
+          showBumperAd();
           rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
           fullscreenButton.onclick = () => {
@@ -142,7 +143,6 @@
       };
       document.body.appendChild(script);
     </script>    
-    <script>addLoader();</script>
-    <!-- <script>showBumperAd();</script> -->
+    <script>addLoader();</script>    
   </body>
 </html>

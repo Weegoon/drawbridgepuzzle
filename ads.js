@@ -220,10 +220,10 @@ function runOnAdClosed() {
     // call function for earned reward  (success case)
       myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
       }
-      _triggerReason = ''
-      rewardInstance.destroyAd();
-      $('#playMore').css("display", "none");
-      //rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+
+      _triggerReason = ''      
+      rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+      showGame();
 
     } 
 
