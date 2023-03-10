@@ -249,12 +249,12 @@ function interstitialEvent(){
 }
 
 function rewardEvent() {
-    _triggerReason = 'reward'
-    if (!is_rewarded_noFill) {
-        window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
-    } else {
-        runOnAdClosed();
-    }
+    // _triggerReason = 'reward'
+    // if (!is_rewarded_noFill) {
+    //     window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+    // } else {
+    //     runOnAdClosed();
+    // }
 
 }
 
