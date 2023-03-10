@@ -210,6 +210,7 @@ function runOnAdClosed() {
     } else if (_triggerReason === 'reward') {
         console.log("reward close 1");
 
+        rewardInstance.destroyAd();
       // If user close ad before reward
       if (!isRewardGranted && isRewardedAdClosedByUser) {
         // call function for not earning reward (failure case)
