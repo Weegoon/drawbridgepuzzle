@@ -12,10 +12,19 @@ function addStickyBanner() {
     console.log("stickyBannerDiv added...");
 }
 
+function addBannerAd() {
+    $("#bannerOverlay").css("display", "flex");
+    var stickyBannerDiv = `<div id="banner-ad">
+                        </div>`;
+    $("body").append($(stickyBannerDiv));
+    console.log("stickyBannerDiv added...");
+}
+
 function refreshStickyBannerAd() {
     console.log("refreshStickyBannerAd")
     addStickyBanner();
     showStickyBannerAd();
+
     var timesRun = 0;
     const runInterval = setInterval(()=> {
        

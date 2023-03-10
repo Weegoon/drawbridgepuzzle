@@ -24,10 +24,12 @@ function sendCustomAnalyticsEvent(eventType, extras) {
   }
 }
 function showBumperAd() {
-
+  console.log("show bumber ads 0");
   if(isMRECEnabledOnLP === 'true'){
+    console.log("show bumber ads 1");
     LPBannerInstance =  window?.GlanceGamingAdInterface?.showLoadingPageBannerAd(LPMercObj ,bannerCallbacks);
   } else {
+    console.log("show bumber ads 2");
     if (isBumperAd) {
       console.log("Bumper Ad...");
       isAdLoaded = BumperAd.isAdLoaded();

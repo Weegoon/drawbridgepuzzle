@@ -1,10 +1,10 @@
-const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'weegoon', surface: "test" };
-//loading scripts
+const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'Weegoon', surface: 'test'};
+
 $.getScript(
 
-
+   
     "https://g.glance-cdn.com/public/content/games/xiaomi/gamesAd.js",
-
+    
     "gpid.js"
 
 )
@@ -17,17 +17,18 @@ $.getScript(
     });
 
 
-var LPBannerInstance, LBBannerInstance, StickyBannerInstance, replayInstance, GlanceGamingAdInstance, rewardInstance, _triggerReason;
+var LPBannerInstance, LBBannerInstance, StickyBannerInstance, replayInstance, GlanceGamingAdInstance, rewardInstance ,_triggerReason;
+var interstitialInstance;
 var is_replay_noFill = false
 var is_rewarded_noFill = false
 var isRewardGranted = false
 var isRewardedAdClosedByUser = false
-// Objects for different ad format.
+
 const LPMercObj = {
-    adUnitName: "",
-    pageName: '',               //Game Name
-    categoryName: 'Weegoon',           //Publisher Name
-    placementName: 'gameload',
+    adUnitName: "Weegoon_DrawBridgePuzzle",
+    pageName: 'DrawBridgePuzzle',               //Game Name
+    categoryName: 'google',           //Publisher Name
+    placementName: 'Test_Banner',
     containerID: "div-gpt-ad-2",            //Div Id for banner
     height: 250,
     width: 300,
@@ -36,9 +37,9 @@ const LPMercObj = {
     gpid: gpID,
 }
 const StickyObj = {
-    adUnitName: "",
-    pageName: '',               //Game Name
-    categoryName: 'Weegoon',           //Publisher Name
+    adUnitName: "Weegoon_DrawBridgePuzzle",
+    pageName:'DrawBridgePuzzle',                        //Game Name
+    categoryName: 'google',                   //Publisher Name       
     placementName: 'Test_Banner',
     containerID: "banner-ad",            //Div Id for banner
     height: 50,
@@ -49,10 +50,10 @@ const StickyObj = {
 }
 
 const LBBannerObj = {
-    adUnitName: "",
-    pageName: '',               //Game Name
-    categoryName: 'Weegoon',           //Publisher Name
-    placementName: 'leaderboard',
+    adUnitName: "Weegoon_DrawBridgePuzzle",
+    pageName: 'DrawBridgePuzzle',               //Game Name
+    categoryName: 'google',           //Publisher Name
+    placementName: 'Test_Banner',
     containerID: "div-gpt-ad-1",            //Div Id for banner
     height: 250,
     width: 300,
@@ -63,7 +64,7 @@ const LBBannerObj = {
 
 function successCb() {
     console.log("set up lib success")
-    showBumperAd();
+    // showBumperAd();
 
 }
 function failCb(reason) { }
@@ -71,10 +72,10 @@ function failCb(reason) { }
 
 
 const replayObj = {
-    adUnitName: "",
-    placementName: "FsReplay",
-    pageName: '',
-    categoryName: 'Weegoon',
+    adUnitName: "Weegoon_DrawBridgePuzzle",
+    placementName: "Test_Rewarded",
+    pageName: 'DrawBridgePuzzle',
+    categoryName: 'google',
     containerID: '',
     height: '',
     width: '',
@@ -83,10 +84,10 @@ const replayObj = {
     gpid: gpID,
 }
 const rewardObj = {
-    adUnitName: "",
-    placementName: "FsRewarded",
-    pageName: '',
-    categoryName: 'Weegoon',
+    adUnitName: "Weegoon_DrawBridgePuzzle",
+    placementName: "Test_Rewarded",
+    pageName: 'DrawBridgePuzzle',
+    categoryName: 'google',
     containerID: '',
     height: '',
     width: '',
@@ -95,14 +96,14 @@ const rewardObj = {
     gpid: gpID,
 }
 
-//banner ads callbacks 
+
 function bannerCallbacks(obj) {
-
-
+    
+   
     obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
         console.log('onAdLoadSucceeded CALLBACK', data);
 
-        if (obj.adUnitName === LBBannerObj.adUnitName) {
+        if (obj.adUnitName === LBBannerObj.adUnitName ) {
             $("#div-gpt-ad-1").css("display", "flex")
             $(".gameOverDiv").css("margin-top", "0px");
         }
@@ -112,7 +113,7 @@ function bannerCallbacks(obj) {
         console.log('onAdLoadFailed  CALLBACK', data);
 
 
-        if (obj.adUnitName === LBBannerObj.adUnitName) {
+        if (obj.adUnitName === LBBannerObj.adUnitName ) {
             $("#div-gpt-ad-1").css("display", "none")
             $(".gameOverDiv").css("margin-top", "100px");
 
@@ -123,12 +124,17 @@ function bannerCallbacks(obj) {
         console.log('onAdDisplayed  CALLBACK', data);
     });
 
-
+   
 }
-// rewarded ad callbacks
+
+
+
+
+
+
 function rewardedCallbacks(obj) {
-
-
+   
+   
 
     obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
         console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
@@ -144,7 +150,7 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
         console.log('onAdLoadFailed Rewarded CALLBACK', data);
-        if (obj.adUnitName === replayObj.adUnitName) {
+        if (obj.adUnitName ===replayObj.adUnitName) {
             is_replay_noFill = true
         }
         if (obj.adUnitName === rewardObj.adUnitName) {
@@ -160,20 +166,20 @@ function rewardedCallbacks(obj) {
 
     });
 
-
+   
 
     obj.adInstance?.registerCallback('onAdClosed', (data) => {
         console.log('onAdClosed Rewarded CALLBACK', data);
-
+    
         if (obj.adUnitName == rewardObj.adUnitName) {
             isRewardedAdClosedByUser = true
         }
         runOnAdClosed();
         isRewardGranted = false
         isRewardedAdClosedByUser = false
+    
 
-
-
+      
     });
 
     obj.adInstance?.registerCallback('onAdClicked', (data) => {
@@ -182,7 +188,7 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
         console.log('onRewardsUnlocked Rewarded CALLBACK', data);
-
+        
         if (obj.adUnitName === rewardObj.adUnitName) {
             isRewardGranted = true
         }
@@ -190,43 +196,55 @@ function rewardedCallbacks(obj) {
     });
 
 }
-// function to be called after ad closes
-//function runOnAdClosed() {
-//    if (_triggerReason === 'replay') {
 
-//        // call game function for replay
-//        _triggerReason = ''
-//        showGame();
+function runOnAdClosed() {
+    console.log('reward close 0 ', _triggerReason);
+    if (_triggerReason === 'replay') {
 
-//        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+    // call function for replay
+    _triggerReason = ''
+    $('#playMore').css("display", "none");
+    
+    replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
 
-//    } else if (_triggerReason === 'reward') {
+    } else if (_triggerReason === 'reward') {
+        console.log("reward close 1");
 
-//        // If user close ad before reward
-//        if (!isRewardGranted && isRewardedAdClosedByUser) {
-//            // call game function for not earning reward (failure case)
+      // If user close ad before reward
+      if (!isRewardGranted && isRewardedAdClosedByUser) {
+        // call function for not earning reward (failure case)
+     
+      } else {
 
-//        } else {
+    // call function for earned reward  (success case)
+      myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+      }
+      _triggerReason = ''
+      rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
-//            // call game function for earned reward  (success case)
-//        }
-//        _triggerReason = ''
-//        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
-
-//    }
+    } 
 
 
-//}
+  }
 
-// function called on replay button (leaderboard) clicked
-function replayEvent() {
+
+  function replayEvent() { 
     _triggerReason = 'replay'
-    if (!is_replay_noFill) {
-        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
-    } else {
+    if(!is_replay_noFill){
+        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);        
+    }else{
         runOnAdClosed();
     }
+  
+    // LBBannerInstance.destroyAd();
+    
+    $("#div-gpt-ad-1").html("");
+    
+  
+}
 
+function interstitialEvent(){
+    window.GlanceGamingAdInterface.showInterstitialAd(replayInstance);
 }
 
 function rewardEvent() {
@@ -236,6 +254,7 @@ function rewardEvent() {
     } else {
         runOnAdClosed();
     }
+
 }
 
 
