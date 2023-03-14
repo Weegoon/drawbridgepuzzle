@@ -64,7 +64,7 @@ const LBBannerObj = {
 
 function successCb() {
     console.log("set up lib success")
-    // showBumperAd();
+    showBumperAd();
 
 }
 function failCb(reason) { }
@@ -162,7 +162,7 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onAdDisplayed', (data) => {
         console.log('onAdDisplayed Rewarded CALLBACK', data);
-
+        myGameInstance.SendMessage('ShowAds', 'MuteSoundAdsOpen');
 
     });
 
@@ -178,7 +178,7 @@ function rewardedCallbacks(obj) {
         isRewardGranted = false
         isRewardedAdClosedByUser = false
     
-
+        myGameInstance.SendMessage('ShowAds', 'PlaySoundAdsClose');
       
     });
 
@@ -199,13 +199,15 @@ function rewardedCallbacks(obj) {
 
 function runOnAdClosed() {
     window.focus();
+    
     if (_triggerReason === 'replay') {
 
     // call function for replay
     _triggerReason = ''
-    $('#playMore').css("display", "none");
+    //$('#playMore').css("display", "none");
     
     replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+
     } else if (_triggerReason === 'reward') {                
       // If user close ad before reward
       if (!isRewardGranted && isRewardedAdClosedByUser) {
@@ -222,13 +224,20 @@ function runOnAdClosed() {
       rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
     } 
+    else if (_triggerReason === 'interstitial') {
+        myGameInstance.SendMessage('ShowAds', 'OnInterstitialAdsClose');
+        _triggerReason = ''
+        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+    } 
 
   }
 
 
   function replayEvent() { 
-    _triggerReason = 'replay'
-    if(!is_replay_noFill){
+      _triggerReason = 'replay'
+      console.log("replay 0");
+      if (!is_replay_noFill) {
+          console.log("replay 1");
         window.GlanceGamingAdInterface.showRewarededAd(replayInstance);        
     }else{
         runOnAdClosed();
@@ -236,13 +245,22 @@ function runOnAdClosed() {
   
     // LBBannerInstance.destroyAd();
     
-    $("#div-gpt-ad-1").html("");
+    //$("#div-gpt-ad-1").html("");
     
   
+  }
+
+function loadInterstitial() {
+
 }
 
 function interstitialEvent(){
-    window.GlanceGamingAdInterface.showInterstitialAd(replayInstance);
+    _triggerReason = 'interstitial'
+    if (!is_rewarded_noFill) {
+        window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+    } else {
+        runOnAdClosed();
+    }
 }
 
 function rewardEvent() {

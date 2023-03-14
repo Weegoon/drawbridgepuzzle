@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,23 +23,23 @@
 
     <script type="text/javascript" src="./stickyBanner.js"></script>
     <link rel="stylesheet" href="./stickyBanner.css">
-
-  </head>
-  <body>
+</head>
+<body>
+    <script>addLoader();</script>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=600 height=960></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
+        <canvas id="unity-canvas" width=600 height=960></canvas>
+        <!--<div id="unity-loading-bar">
+            <div id="unity-logo"></div>
+            <div id="unity-progress-bar-empty">
+                <div id="unity-progress-bar-full"></div>
+            </div>
+        </div>-->
+        <div id="unity-warning"> </div>
+        <div id="unity-footer">
+            <div id="unity-webgl-logo"></div>
+            <div id="unity-fullscreen-button"></div>
+            <div id="unity-build-title">DrawBridge</div>
         </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-webgl-logo"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">DrawBridge</div>
-      </div>
     </div>
     <script>
       var container = document.querySelector("#unity-container");
@@ -48,7 +48,6 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
-      var myGameInstance = null;
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -118,21 +117,34 @@
         canvas.style.height = "960px";
       }
 
-      loadingBar.style.display = "block";
-
+      //loadingBar.style.display = "block";
+      var myGameInstance = null;
       var script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          //progressBarFull.style.width = 100 * progress + "%";
-          progressBar(100 * progress);
-        }).then((unityInstance) => {
-          loadingBar.style.display = "none";
-          myGameInstance = unityInstance;
+            //progressBarFull.style.width = 100 * progress + "%";
+            /*progressBar(100 * progress);*/
+            progressBar(100 * progress);
 
-          refreshStickyBannerAd();
-          showBumperAd();
-          rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+            if (progress == 1) {
+                sendCustomAnalyticsEvent("game_load", {});
+
+                setTimeout(() => {
+                    StickyBannerInstance = window?.GlanceGamingAdInterface?.showStickyBannerAd(StickyObj, bannerCallbacks);
+                    refreshStickyBannerAd();
+                    rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+                }, 1000)
+
+            }
+
+        }).then((unityInstance) => {
+          //loadingBar.style.display = "none";
+
+            myGameInstance = unityInstance;
+            //refreshStickyBannerAd();
+            //showBumperAd();
+            //rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
           fullscreenButton.onclick = () => {
             unityInstance.SetFullscreen(1);
@@ -142,7 +154,6 @@
         });
       };
       document.body.appendChild(script);
-    </script>    
-    <script>addLoader();</script>    
-  </body>
+    </script>
+</body>
 </html>
