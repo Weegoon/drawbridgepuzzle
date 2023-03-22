@@ -1,11 +1,12 @@
 //bumperAd scripts start
 
 const isBumperAd = typeof BumperAd !== "undefined" ? true : false;
-const isSdkNew = typeof GlanceAndroidInterface !== "undefined" ? true : false;
+const isSdkNew = typeof GlanceAndroidInterface !== "undefined" ? true : false
 
 let bumperAdStatus = false;
 let bumperCallback = false;
 let isAdLoaded;
+let isSdkInit = false;
 
 var isMRECEnabledOnLP = false;
 try {
@@ -16,28 +17,41 @@ try {
 
 let isNormalGame = (isBumperAd == true && isMRECEnabledOnLP != 'true') ? false : true; //true means playing in browser
 
-function sendCustomAnalyticsEvent(eventType, extras) {
-  console.log("sendCustomAnalyticsEvent", eventType, extras);
-  if (isSdkNew) {
-    const data = JSON.stringify(extras);
-    GlanceAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
-  }
+// Analytic Events
+
+function sendCustomAnalyticsEvent(eventType) {
+    if (isSdkNew) {
+        const obj = {};
+        const data = JSON.stringify(obj);
+        console.log(eventType, data);
+        GlaneAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
+    }
 }
+
+function sendCustomAnalyticsEventWithParams(eventType, extras) {
+    console.log("sendCustomAnalyticsEvent", eventType, parseInt(extras));
+    if (isSdkNew) {
+        const obj = { level: parseInt(extras) };
+        const data = JSON.stringify(obj);
+        GlanceAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
+    }
+}
+
 function showBumperAd() {
-  if(isMRECEnabledOnLP === 'true'){
-    LPBannerInstance =  window?.GlanceGamingAdInterface?.showLoadingPageBannerAd(LPMercObj ,bannerCallbacks);
-  } else {
-    if (isBumperAd) {
-      console.log("Bumper Ad...");
-      isAdLoaded = BumperAd.isAdLoaded();
-      sendCustomAnalyticsEvent("Game_loading_screen_start", {});
-      isNormalGame = false;
-      BumperAd.showAd();
+    if (isMRECEnabledOnLP === 'true') {
+        LPBannerInstance = window?.GlanceGamingAdInterface?.showLoadingPageBannerAd(LPMercObj, bannerCallbacks);
+    } else {
+        if (isBumperAd) {
+            console.log("Bumper Ad...");
+            isAdLoaded = BumperAd.isAdLoaded();
+            sendCustomAnalyticsEvent("Game_loading_screen_start");
+            isNormalGame = false;
+            BumperAd.showAd();
+        }
+        else {
+            LPBannerInstance = window?.GlanceGamingAdInterface?.showLoadingPageBannerAd(LPMercObj, bannerCallbacks);
+        }
     }
-    else{
-      LPBannerInstance =  window?.GlanceGamingAdInterface?.showLoadingPageBannerAd(LPMercObj ,bannerCallbacks);
-    }
-  }
 
 }
 
@@ -46,7 +60,7 @@ function gameReady() {
   if (isBumperAd) {
     if ((bumperCallback && !bumperAdStatus) || !isAdLoaded) {
       $("#blankScreen").css("display", "block");
-      sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
+      sendCustomAnalyticsEvent("Game_loading_Screen_end");
       $("#gotoGame").trigger("click");
     }
 
@@ -61,7 +75,7 @@ function onBumperAdError() {
   console.log("onBumperAdError");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
+    sendCustomAnalyticsEvent("Game_loading_Screen_end");
     $("#gotoGame").trigger("click");
   }
   // else {
@@ -74,7 +88,7 @@ function onBumperAdSkipped() {
   console.log("onBumperAdSkipped");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
+    sendCustomAnalyticsEvent("Game_loading_Screen_end");
     $("#gotoGame").trigger("click");
   }
   // else {
@@ -87,7 +101,7 @@ function onBumperAdCompleted() {
   console.log("onBumperAdCompleted");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
+    sendCustomAnalyticsEvent("Game_loading_Screen_end");
     $("#gotoGame").trigger("click");
   }
   // else {
@@ -165,28 +179,28 @@ function timerForLpBanner() {
 }
 
 //setTimeoutSeconds param can be used to delay the transition. By default its value is set to 0.
-function goToGame(setTimeoutSeconds=0){
+function goToGame(setTimeoutSeconds = 0) {
     $("#gotoGame").click(() => {
-      
-      console.log("GotoGame calling");
-      setTimeout(() => {
-          $("#blankScreen").fadeOut("slow");
-      }, setTimeoutSeconds);
+
+        console.log("GotoGame calling");
+        setTimeout(() => {
+            $("#blankScreen").fadeOut("slow");
+        }, setTimeoutSeconds);
 
     });
-  
+
     if (!isNormalGame) {
-			
+
         gameReady();
     } else {
-       
+
         setTimeout(() => {
             $("#loaderPage").fadeOut("slow");
         }, setTimeoutSeconds);
-        
+
     }
 
-    
+
 }
 
 

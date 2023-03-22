@@ -133,8 +133,8 @@ function bannerCallbacks(obj) {
 
 
 function rewardedCallbacks(obj) {
-   
-   
+
+
 
     obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
         console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
@@ -150,7 +150,7 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
         console.log('onAdLoadFailed Rewarded CALLBACK', data);
-        if (obj.adUnitName ===replayObj.adUnitName) {
+        if (obj.adUnitName === replayObj.adUnitName) {
             is_replay_noFill = true
         }
         if (obj.adUnitName === rewardObj.adUnitName) {
@@ -166,20 +166,20 @@ function rewardedCallbacks(obj) {
 
     });
 
-   
+
 
     obj.adInstance?.registerCallback('onAdClosed', (data) => {
         console.log('onAdClosed Rewarded CALLBACK', data);
-    
+
         if (obj.adUnitName == rewardObj.adUnitName) {
             isRewardedAdClosedByUser = true
         }
         runOnAdClosed();
         isRewardGranted = false
         isRewardedAdClosedByUser = false
-    
+
         myGameInstance.SendMessage('ShowAds', 'PlaySoundAdsClose');
-      
+
     });
 
     obj.adInstance?.registerCallback('onAdClicked', (data) => {
@@ -188,7 +188,7 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
         console.log('onRewardsUnlocked Rewarded CALLBACK', data);
-        
+
         if (obj.adUnitName === rewardObj.adUnitName) {
             isRewardGranted = true
         }
@@ -199,56 +199,56 @@ function rewardedCallbacks(obj) {
 
 function runOnAdClosed() {
     window.focus();
-    
+
     if (_triggerReason === 'replay') {
 
-    // call function for replay
-    _triggerReason = ''
-    //$('#playMore').css("display", "none");
-    
-    replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+        // call function for replay
+        _triggerReason = ''
+        //$('#playMore').css("display", "none");
 
-    } else if (_triggerReason === 'reward') {                
-      // If user close ad before reward
-      if (!isRewardGranted && isRewardedAdClosedByUser) {
-        // call function for not earning reward (failure case)
-     
-      } else {
+        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
 
-    // call function for earned reward  (success case)
-      myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+    } else if (_triggerReason === 'reward') {
+        // If user close ad before reward
+        if (!isRewardGranted && isRewardedAdClosedByUser) {
+            // call function for not earning reward (failure case)
 
-      }
+        } else {
 
-      _triggerReason = '' 
-      rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+            // call function for earned reward  (success case)
+            myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
+            sendCustomAnalyticsEvent("rewarded_ad", {});
+        }
 
-    } 
+        _triggerReason = ''
+        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
+
+    }
     else if (_triggerReason === 'interstitial') {
         myGameInstance.SendMessage('ShowAds', 'OnInterstitialAdsClose');
         _triggerReason = ''
         rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
-    } 
+    }
 
-  }
+}
 
 
-  function replayEvent() { 
-      _triggerReason = 'replay'
-      console.log("replay 0");
-      if (!is_replay_noFill) {
-          console.log("replay 1");
-        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);        
-    }else{
+function replayEvent() {
+    _triggerReason = 'replay'
+    console.log("replay 0");
+    if (!is_replay_noFill) {
+        console.log("replay 1");
+        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
+    } else {
         runOnAdClosed();
     }
-  
+
     // LBBannerInstance.destroyAd();
-    
+
     //$("#div-gpt-ad-1").html("");
-    
-  
-  }
+
+
+}
 
 function loadInterstitial() {
 
