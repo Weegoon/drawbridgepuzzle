@@ -19,20 +19,10 @@ let isNormalGame = (isBumperAd == true && isMRECEnabledOnLP != 'true') ? false :
 
 // Analytic Events
 
-function sendCustomAnalyticsEvent(eventType) {
+function sendCustomAnalyticsEvent(eventType, extras) {
+    console.log("sendCustomAnalyticsEvent", eventType, extras);
     if (isSdkNew) {
-        const obj = {};
-        const data = JSON.stringify(obj);
-        console.log(eventType, data);
-        GlaneAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
-    }
-}
-
-function sendCustomAnalyticsEventWithParams(eventType, extras) {
-    console.log("sendCustomAnalyticsEvent", eventType, parseInt(extras));
-    if (isSdkNew) {
-        const obj = { level: parseInt(extras) };
-        const data = JSON.stringify(obj);
+        const data = JSON.stringify(extras);
         GlanceAndroidInterface.sendCustomAnalyticsEvent(eventType, data);
     }
 }
@@ -44,7 +34,7 @@ function showBumperAd() {
         if (isBumperAd) {
             console.log("Bumper Ad...");
             isAdLoaded = BumperAd.isAdLoaded();
-            sendCustomAnalyticsEvent("Game_loading_screen_start");
+            sendCustomAnalyticsEvent("Game_loading_screen_start", {});
             isNormalGame = false;
             BumperAd.showAd();
         }
@@ -60,7 +50,7 @@ function gameReady() {
   if (isBumperAd) {
     if ((bumperCallback && !bumperAdStatus) || !isAdLoaded) {
       $("#blankScreen").css("display", "block");
-      sendCustomAnalyticsEvent("Game_loading_Screen_end");
+        sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
       $("#gotoGame").trigger("click");
     }
 
@@ -75,7 +65,7 @@ function onBumperAdError() {
   console.log("onBumperAdError");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end");
+      sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
     $("#gotoGame").trigger("click");
   }
   // else {
@@ -88,7 +78,7 @@ function onBumperAdSkipped() {
   console.log("onBumperAdSkipped");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end");
+      sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
     $("#gotoGame").trigger("click");
   }
   // else {
@@ -101,7 +91,7 @@ function onBumperAdCompleted() {
   console.log("onBumperAdCompleted");
   if (bumperAdStatus) {
     $("#blankScreen").css("display", "block");
-    sendCustomAnalyticsEvent("Game_loading_Screen_end");
+      sendCustomAnalyticsEvent("Game_loading_Screen_end", {});
     $("#gotoGame").trigger("click");
   }
   // else {
