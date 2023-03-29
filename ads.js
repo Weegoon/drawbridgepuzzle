@@ -1,4 +1,4 @@
-const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'Weegoon', surface: 'test'};
+const gameInput = { gameName: 'DrawBridgePuzzle', publisherName: 'Weegoon'/*, surface: 'test'*/};
 
 $.getScript(
 
@@ -25,10 +25,10 @@ var isRewardGranted = false
 var isRewardedAdClosedByUser = false
 
 const LPMercObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle",
-    pageName: 'DrawBridgePuzzle',               //Game Name
-    categoryName: 'google',           //Publisher Name
-    placementName: 'Test_Banner',
+    adUnitName: "Weegoon_DrawBridgePuzzle_Gameload_Bottom",
+    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    categoryName: 'Weegoon',           //Publisher Name
+    placementName: 'gameload',
     containerID: "div-gpt-ad-2",            //Div Id for banner
     height: 250,
     width: 300,
@@ -37,10 +37,10 @@ const LPMercObj = {
     gpid: gpID,
 }
 const StickyObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle",
-    pageName:'DrawBridgePuzzle',                        //Game Name
-    categoryName: 'google',                   //Publisher Name       
-    placementName: 'Test_Banner',
+    adUnitName: "Weegoon_DrawBridgePuzzle_Ingame_Bottom",
+    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    categoryName: 'Weegoon',           //Publisher Name
+    placementName: 'ingame',
     containerID: "banner-ad",            //Div Id for banner
     height: 50,
     width: 320,
@@ -50,10 +50,10 @@ const StickyObj = {
 }
 
 const LBBannerObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle",
-    pageName: 'DrawBridgePuzzle',               //Game Name
-    categoryName: 'google',           //Publisher Name
-    placementName: 'Test_Banner',
+    adUnitName: "Weegoon_DrawBridgePuzzle_Leaderboard_Top",
+    pageName: 'Weegoon_DrawBridgePuzzle',               //Game Name
+    categoryName: 'Weegoon',           //Publisher Name
+    placementName: 'leaderboard',
     containerID: "div-gpt-ad-1",            //Div Id for banner
     height: 250,
     width: 300,
@@ -72,10 +72,10 @@ function failCb(reason) { }
 
 
 const replayObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle",
-    placementName: "Test_Rewarded",
-    pageName: 'DrawBridgePuzzle',
-    categoryName: 'google',
+    adUnitName: "Weegoon_DrawBridgePuzzle_FsReplay_Replay",
+    placementName: "FsReplay",
+    pageName: 'Weegoon_DrawBridgePuzzle',
+    categoryName: 'Weegoon',
     containerID: '',
     height: '',
     width: '',
@@ -84,10 +84,10 @@ const replayObj = {
     gpid: gpID,
 }
 const rewardObj = {
-    adUnitName: "Weegoon_DrawBridgePuzzle",
-    placementName: "Test_Rewarded",
-    pageName: 'DrawBridgePuzzle',
-    categoryName: 'google',
+    adUnitName: "Weegoon_DrawBridgePuzzle_FsRewarded_Reward",
+    placementName: "FsRewarded",
+    pageName: 'Weegoon_DrawBridgePuzzle',
+    categoryName: 'Weegoon',
     containerID: '',
     height: '',
     width: '',
