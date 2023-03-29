@@ -138,9 +138,6 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
         console.log('onAdLoadSucceeded Rewarded CALLBACK', data);
-        if (obj.adUnitName === replayObj.adUnitName) {
-            is_replay_noFill = false
-        }
         if (obj.adUnitName === rewardObj.adUnitName) {
             is_rewarded_noFill = false
         }
@@ -150,9 +147,6 @@ function rewardedCallbacks(obj) {
 
     obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
         console.log('onAdLoadFailed Rewarded CALLBACK', data);
-        if (obj.adUnitName === replayObj.adUnitName) {
-            is_replay_noFill = true
-        }
         if (obj.adUnitName === rewardObj.adUnitName) {
             is_rewarded_noFill = true
         }
@@ -197,16 +191,64 @@ function rewardedCallbacks(obj) {
 
 }
 
+function replayCallbacks(obj) {
+
+
+
+    obj.adInstance?.registerCallback('onAdLoadSucceed', (data) => {
+        console.log('onAdLoadSucceeded replay CALLBACK', data);
+        if (obj.adUnitName === replayObj.adUnitName) {
+            is_replay_noFill = false
+        }
+    });
+
+    obj.adInstance?.registerCallback('onAdLoadFailed', (data) => {
+        console.log('onAdLoadFailed replay CALLBACK', data);
+        if (obj.adUnitName === replayObj.adUnitName) {
+            is_replay_noFill = true
+        }
+    });
+
+    obj.adInstance?.registerCallback('onAdDisplayed', (data) => {
+        console.log('onAdDisplayed replay CALLBACK', data);
+        myGameInstance.SendMessage('ShowAds', 'MuteSoundAdsOpen');
+
+    });
+
+
+
+    obj.adInstance?.registerCallback('onAdClosed', (data) => {
+        console.log('onAdClosed replay CALLBACK', data);
+
+        runOnAdClosed();
+
+        myGameInstance.SendMessage('ShowAds', 'PlaySoundAdsClose');
+
+    });
+
+    obj.adInstance?.registerCallback('onAdClicked', (data) => {
+        console.log('onAdClicked replay CALLBACK', data);
+    });
+
+    //obj.adInstance?.registerCallback('onRewardsUnlocked', (data) => {
+    //    console.log('onRewardsUnlocked replay CALLBACK', data);
+
+    //    if (obj.adUnitName === rewardObj.adUnitName) {
+    //        isRewardGranted = true
+    //    }
+
+    //});
+
+}
+
 function runOnAdClosed() {
     window.focus();
 
     if (_triggerReason === 'replay') {
 
-        // call function for replay
+        myGameInstance.SendMessage('ShowAds', 'OnInterstitialAdsClose');
         _triggerReason = ''
-        //$('#playMore').css("display", "none");
-
-        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+        replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, replayCallbacks);
 
     } else if (_triggerReason === 'reward') {
         // If user close ad before reward
@@ -217,18 +259,18 @@ function runOnAdClosed() {
 
             // call function for earned reward  (success case)
             myGameInstance.SendMessage('ShowAds', 'OnRewardAdsClosed');
-            sendCustomAnalyticsEvent("rewarded_ad", {});
+
         }
 
         _triggerReason = ''
         rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
 
     }
-    else if (_triggerReason === 'interstitial') {
-        myGameInstance.SendMessage('ShowAds', 'OnInterstitialAdsClose');
-        _triggerReason = ''
-        rewardInstance = window.GlanceGamingAdInterface.loadRewardedAd(rewardObj, rewardedCallbacks);
-    }
+    //else if (_triggerReason === 'interstitial') {
+    //    myGameInstance.SendMessage('ShowAds', 'OnInterstitialAdsClose');
+    //    _triggerReason = ''
+    //    replayInstance = window.GlanceGamingAdInterface.loadRewardedAd(replayObj, rewardedCallbacks);
+    //}
 
 }
 
@@ -255,9 +297,9 @@ function loadInterstitial() {
 }
 
 function interstitialEvent(){
-    _triggerReason = 'interstitial'
-    if (!is_rewarded_noFill) {
-        window.GlanceGamingAdInterface.showRewarededAd(rewardInstance);
+    _triggerReason = 'replay'
+    if (!is_replay_noFill) {
+        window.GlanceGamingAdInterface.showRewarededAd(replayInstance);
     } else {
         runOnAdClosed();
     }
